@@ -11,9 +11,10 @@ var auth = jwt({
 var userController = require('../controllers/user');
 var authController = require('../controllers/authentication');
 
-router.get('/profile', auth, userController.profile);
-router.get('/user', auth, userController.user);
-router.get('/users', auth, userController.users);
+router.get('/user/profile', auth, userController.profile);
+router.get('/user/get', auth, userController.user);
+router.get('/user/list', auth, userController.users);
+router.post('/user/update', auth, userController.update);
 
 // authentication
 router.post('/register', authController.register);
