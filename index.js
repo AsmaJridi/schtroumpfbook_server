@@ -18,7 +18,6 @@ require("./api/config/passport");
 
 // les routes des APIs
 var routesApi = require("./api/routes/index");
-const { listen } = require("express/lib/application");
 
 var app = express();
 

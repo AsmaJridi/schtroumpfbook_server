@@ -14,10 +14,11 @@ var userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["Apprenti","Guerrier", "Alchimiste", "Sorcier", "Espions"],
+    enum: ["Apprenti", "Guerrier", "Alchimiste", "Sorcier", "Espion"],
     default: "Apprenti",
   },
-  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
   hash: String,
   salt: String,
 });
@@ -36,6 +37,8 @@ userSchema.methods.validPassword = function (password) {
   return this.hash === hash;
 };
 
+
+
 userSchema.methods.generateJwt = function () {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
@@ -48,7 +51,7 @@ userSchema.methods.generateJwt = function () {
       exp: parseInt(expiry.getTime() / 1000),
     },
     "MY_SECRET"
-  ); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  ); 
 };
 
 mongoose.model("User", userSchema);
