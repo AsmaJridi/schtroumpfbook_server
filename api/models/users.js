@@ -17,7 +17,7 @@ var userSchema = new mongoose.Schema({
     enum: ["Apprenti", "Guerrier", "Alchimiste", "Sorcier", "Espion"],
     default: "Apprenti",
   },
-  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  friendships: [{ type: mongoose.Schema.Types.ObjectId, ref: "Friendship" }],
 
   hash: String,
   salt: String,
@@ -37,8 +37,6 @@ userSchema.methods.validPassword = function (password) {
   return this.hash === hash;
 };
 
-
-
 userSchema.methods.generateJwt = function () {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
@@ -51,7 +49,13 @@ userSchema.methods.generateJwt = function () {
       exp: parseInt(expiry.getTime() / 1000),
     },
     "MY_SECRET"
-  ); 
+  );
+};
+
+userSchema.methods.addFriendship = function (friendshipId) {
+  var friendshipList = this.friendships;
+  friendshipList.push(friendshipId);
+  this.friendships = friendshipList;
 };
 
 mongoose.model("User", userSchema);

@@ -10,7 +10,6 @@ var passport = require("passport");
 var debug = require('debug')('schtroumpfbook:server');
 const PORT = 3000;
 
-
 // Emporter le modéle de BD
 require("./api/models/db");
 // la configuration passport
