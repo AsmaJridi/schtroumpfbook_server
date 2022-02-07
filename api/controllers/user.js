@@ -39,7 +39,7 @@ module.exports.addFriend = async function (req, res) {
                 res.status(401).json({ message: "Utilisateur non trouvé" });
               } else {
                 recipient.addFriendship(friendship._id);
-                await requester.save(async function (err) {
+                await recipient.save(async function (err) {
                   User.findById(req.signedUser._id)
                     .populate({
                       path: "friendships",

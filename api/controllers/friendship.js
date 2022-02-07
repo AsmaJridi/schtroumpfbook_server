@@ -1,3 +1,4 @@
+const { request } = require("express");
 var mongoose = require("mongoose");
 var Friendship = mongoose.model("Friendship");
 var User = mongoose.model("User");
@@ -41,15 +42,24 @@ module.exports.delete = function (req, res) {
         message: "Erreur",
       });
     }
-    User.findById(req.signedUser._id)
-      .populate({
-        path: "friendships",
-        populate: [{ path: "requester" }, { path: "recipient" }],
-      })
+    User.updateMany(
+      {
+        friendships: req.body._id,
+      },
+      { $pull: { friendships: req.body._id } },
 
-      .exec(function (err, user) {
-        res.status(200).json(user);
-      });
+      function (err, users) {
+        User.findById(req.signedUser._id)
+          .populate({
+            path: "friendships",
+            populate: [{ path: "requester" }, { path: "recipient" }],
+          })
+
+          .exec(function (err, user) {
+            res.status(200).json(user);
+          });
+      }
+    );
   });
 };
 
